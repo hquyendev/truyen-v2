@@ -64,8 +64,8 @@ class Command(BaseCommand):
     def leech(self):
         Log().Info('Start leech sstruyen')
 
-        self.manga('http://sstruyen.com/doc-truyen/vat-hy-sinh-nu-phu-ga-lan-hai-cong-chiem/11005.html')
-        # self.manga_from_cat()
+        # self.manga('http://sstruyen.com/doc-truyen/vat-hy-sinh-nu-phu-ga-lan-hai-cong-chiem/11005.html')
+        self.manga_from_cat()
 
     def manga_from_cat(self):
         for cat in _cates:
