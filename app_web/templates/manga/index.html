@@ -1,0 +1,230 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+<div class="col s16 l11">
+	<div class="box2">
+		<div class="row box">
+			<div class="col s16">
+				<div class="title-bar chapter" xmlns:v="http://rdf.data-vocabulary.org/#">
+					<span typeof="v:Breadcrumb">
+						<a rel="v:url" property="v:title" href="/" class="title-bar-text text-sky-dark" title="Trang chủ">Trang chủ <span class="fa fa-chevron-right"></a>
+						<span typeof="v:Breadcrumb" rel="v:child">
+							<a rel="v:url" property="v:title" href="/the-loai/{{ manga.cat.0.catSlug }}.html" title="{{ manga.cat.0.catTitle }}" class="title-bar-text text-sky-dark">{{ manga.cat.0.catTitle }} <span class="fa fa-chevron-right"></span></a>
+							<span class="title-bar-text active">{{ manga.title }}</span>
+						</span>
+					</span>
+				</div>
+			</div>
+			<div class="col s16">
+				<div class="row">
+					<div class="manga-info">
+						<div class="col x16 s5 m4 l4">
+							<div class="manga-image"><img src="{{ manga.image.1x }}" alt="{{ manga.title }}"></div>
+							<div class="manga-view"><span class="fa fa-eye"></span> {{ manga.view }}</div>
+						</div>
+						<div class="col x16 s11 m12 l12">
+							<div class="manga-title">{{ manga.title }}</div>
+							<div class="manga-other"><span class="margin">Tác giả</span>: <a href="/tac-gia/{{ manga.author.slug }}.html" title="Đọc truyện của {{ manga.author.title }}">{{ manga.author.title }}</a></div>
+							<div class="manga-other"><span class="margin">Thể loại</span>: 
+								{% for cat in manga.cat %}
+									<a href="/the-loai/{{ cat.catSlug }}.html" title="Truyện {{ cat.catTitle }}">{{ cat.catTitle }}</a>
+								{% endfor %}
+							</div>
+							<div class="manga-other"><span class="margin">Số chương</span>: {{ manga.chapterTotal }}</div>
+							<div class="manga-other"><span class="margin">Trạng thái</span>: {{ manga.chapterStatus }}</div>
+							<div id="chapter-desc" max-height="170" class="manga-other"><span class="margin">Mô tả</span>: 
+								<span>
+									{{ manga.description }}
+								</span>
+								<span class="overhide"></span>
+								<span id="desc-showall" class="desc-showall">Xem tất cả <span class="fa fa-angle-double-right"></span></span>
+							</div>
+							<div class="fb-social" style="float: right; margin-bottom: -20px;">
+								<div class="fb-like" data-href="http://123truyen.org/truyen/{{ manga.slug }}.html" data-layout="button_count" data-action="like" data-show-faces="true" data-share="true"></div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="box2">
+		<div class="row box">
+			<div class="col s16">
+				<div class="title-bar">
+					<span class="title-bar-text ">Chương mới nhất </span>
+				</div>
+			</div>
+			<div class="col s16">
+				<div class="row">
+					<div class="chapter-list">
+						{% for chapter in manga.last5chapter %}
+							<div class="col s16 m8 l8"><a href="/truyen/{{ manga.slug }}/chuong/{{ chapter.series }}.html" title="{{ chapter.title }}" class="chapter-title"><span class="chapter-dot"></span> {{ chapter.title }}</a></div>
+						{% endfor %}
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="box2">
+		<div class="row box">
+			<div class="col s16">
+				<div class="title-bar">
+					<span class="title-bar-text ">Danh sách chưong </span>
+				</div>
+			</div>
+			<div class="col s16">
+				
+				{% if manga.chapter_page_navi.pageTotal > 0 %}
+				<ul class="pagination">
+					{% for key, val in manga.chapter_page_navi.navi.items %}
+						<li class="{% if val.1 %}active{% else %}page{% endif %}">
+							{% if val.0 == False %}
+								<a href="javascript: void(-1);">...</a>
+							{% else %}
+								<a class="" href="/truyen/{{manga.slug}}/page-{{val.0}}.html">{{val.0}}</a>
+							{% endif %}
+						</li>
+					{% endfor %}
+					<li class="input-page">
+						<input type="text" class="choose-page" value="1">
+						<button type="button" class="submit-page">Go</button>
+					</li>
+				</ul>
+				{% endif %}
+			</div>
+			<div class="col s16">
+				<div class="row">
+					<div class="chapter-list">
+						{% for chapter in manga.chapter_page %}
+							<div class="col s16 m8 l8"><a href="/truyen/{{ manga.slug }}/chuong/{{ chapter.series }}.html" title="{{ chapter.title }}" class="chapter-title"><span class="chapter-dot"></span> {{ chapter.title }}</a></div>
+						{% endfor %}
+					</div>
+				</div>
+			</div>
+			
+			<div class="col s16">
+				{% if manga.chapter_page_navi.pageTotal > 0 %}
+				<ul class="pagination">
+					{% for key, val in manga.chapter_page_navi.navi.items %}
+						<li class="{% if val.1 %}active{% else %}page{% endif %}">
+							{% if val.0 == False %}
+								<a href="javascript: void(-1);">...</a>
+							{% else %}
+								<a class="" href="/truyen/{{manga.slug}}/page-{{val.0}}.html">{{val.0}}</a>
+							{% endif %}
+						</li>
+					{% endfor %}
+					<li class="input-page">
+						<input type="text" class="choose-page" value="1">
+						<button type="button" class="submit-page">Go</button>
+					</li>
+				</ul>
+				{% endif %}
+			</div>
+		</div>
+	</div>
+	<div class="box2">
+		<div class="row box">
+			<div class="col s16">
+				<div class="fb-comments" data-href="{{root}}truyen/{{ manga.slug }}.html" data-colorscheme="light" data-numposts="5" data-width="100%"></div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="col s16 l5">
+	<div class="box2">
+		<div class="row box">
+			<div class="col s16">
+				<div class="title-bar">
+					<a href="" class="title-bar-text text-sky-dark">Cùng tác giả</a>
+				</div>
+			</div>
+
+			{% for manga in manga.manga_same_author %}
+			<div class="col x16 s16 m8 l16 item-verti">
+				<div class="row">
+					<div class="col m5 s5 x5">
+						<div class="img"><a href="/truyen/{{manga.slug}}.html" title="{{ manga.title }}"><img onerror="this.src='http://123truyen.org/static/backdrop/backdrop-manga-8367.jpg'" src="{{ manga.image.2x }}" alt="{{ manga.title }}"></a></div>
+					</div>
+					<div class="col m11 s11 x11">
+						<div class="info">
+							<div><a href="/truyen/{{manga.slug}}.html" title="{{ manga.title }}">{{ manga.title }}</a> </div>
+							<div>Tác giả: <a href="javascript: void(-1);">{{ manga.author.title }}</a></div>
+							<div>Thể loại: 
+								{% for cat in manga.cat %}
+									<a href="/the-loai/{{ cat.catSlug }}.html" title="Truyện {{ cat.catTitle }}">{{ cat.catTitle }}</a>
+								{% endfor %}
+							</div>
+							<div>Lượt xem: <b class="view-count">{{ manga.view }}</b></div>
+						</div>
+					</div>
+				</div>
+			</div>
+			{% endfor %}
+		</div>
+	</div>
+</div>
+<div class="col s16 l5">
+	{% include "layouts/fb.html" %}
+	<div class="box2">
+		<div class="row box">
+			<div class="col s16">
+				<div class="title-bar">
+					<a href="" class="title-bar-text text-purple">Cùng thể loại</a>
+				</div>
+			</div>
+			{% for manga in manga.manga_same_cat %}
+			<div class="col x16 s16 m8 l16 item-verti">
+				<div class="row">
+					<div class="col m5 s5 x5">
+						<div class="img"><a href="/truyen/{{manga.slug}}.html" title="{{ manga.title }}"><img onerror="this.src='http://123truyen.org/static/backdrop/backdrop-manga-8367.jpg'" src="{{ manga.image.2x }}" alt="{{ manga.title }}"></a></div>
+					</div>
+					<div class="col m11 s11 x11">
+						<div class="info">
+							<div><a href="/truyen/{{ manga.slug }}.html" title="{{ manga.title }}">{{ manga.title }}</a> </div>
+							<div>Tác giả: <a href="javascript: void(-1);">{{ manga.author.title }}</a></div>
+							<div>Thể loại: 
+								{% for cat in manga.cat %}
+									<a href="/the-loai/{{ cat.catSlug }}.html" title="Truyện {{ cat.catTitle }}">{{ cat.catTitle }}</a>
+								{% endfor %}
+							</div>
+							<div>Lượt xem: <b class="view-count">{{ manga.view }}</b></div>
+						</div>
+					</div>
+				</div>
+			</div>
+			{% endfor %}
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+	$(document).ready(function(){
+		var current = {{manga.chapter_page_navi.pageCurrent}};
+		var total = {{manga.chapter_page_navi.pageTotal}};
+		var url = '{{root}}truyen/{{manga.slug}}';
+		if(total<= current){
+			$('.choose-page').attr('value',parseInt(current) - 1 );
+		}else{
+			$('.choose-page').attr('value',parseInt(current) + 1 );
+		}
+		$('#desc-showall').on('click', function(){
+			if($('#chapter-desc').hasClass('in')){
+				$(this).text('Xem tất cả ').append($('<span class="fa fa-angle-double-right"></span>'));
+				$('#chapter-desc').css({'max-height': $('#chapter-desc').attr('max-height')}).removeClass('in');
+			}else{
+				$(this).text('Thu gọn ').append($('<span class="fa fa-angle-double-left"></span>'));
+				$('#chapter-desc').css({'max-height': 'inherit'}).addClass('in');
+			}
+		});
+		$('.submit-page').on('click', function(){
+			var val = $('.choose-page').val();
+			if((val >0) ){
+				url = url + '/page-' + val + '.html';
+				window.location.href=url;
+			}
+		});
+	});
+</script>
+{% endblock %}

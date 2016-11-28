@@ -1,0 +1,209 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+<div class="col s16">
+	<div class="box2">
+		<div class="row box">
+			<div class="col s16">
+				<div class="title-bar">
+					<a href="" class="title-bar-text text-orange">Truyện HOT <span class="fa fa-star"></span></a>
+				</div>
+			</div>
+			<div class="col s16">
+				<div class="row items hot">
+					<div class="col s16">
+						<div class="row">
+
+							{% for manga in manga_hot %}
+								<div class="col x8 s8 m4 l2 box-item">
+									<div class="item item-small">
+										<a href="/truyen/{{ manga.slug }}.html" title="Đọc truyện{{ manga.title }}">
+											<div class="image"><img src="{{ manga.image.1x }}" alt="Đọc truyện{{ manga.title }}"><span class="title">{{ manga.title }}</span></div>
+											<span class="icon">HOT</span>
+										</a>
+									</div>
+								</div>
+							{% endfor %}
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="col s16">
+	<div class="row">
+		<div class="col m16 s16 l12">
+						
+				<div class="box2">
+					<div class="row box">
+						{% if manga_readed|length > 0 %}
+						<div class="col s16">
+							<div class="title-bar">
+								<a href="" class="title-bar-text text-sky">Truyện đã xem <span class="fa fa-history"></span></a>
+							</div>
+						</div>
+						<div class="items col s16">
+							<div class="item">
+								<div class="box-item item-verti2">
+									{% for manga_id, manga in manga_readed.items %}
+									{% if manga.series_next != None %}
+									<div class="item ">	
+										<a href="/truyen/{{ manga.slug }}.html" title="{{ manga.title }}"  class="manga_title">
+											<span class="mini-title">{{ manga.title }}</span>
+										</a> 
+										<a href="/truyen/{{ manga.slug }}/chuong/{{ manga.series_next.series }}.html" class="chapter_title" title="{{ manga.series_next.title }}">
+											<span class="mini-title"><span class="fa fa-angle-right"></span> Đọc tiếp: {{ manga.series_next.title }}</span>
+										</a>
+									</div>
+									{% endif %}
+									{% endfor %}
+								</div>
+							</div>
+						</div>
+						{% endif %}
+						<div class="col s16">
+							<div class="title-bar">
+								<a href="" class="title-bar-text text-purple">Truyện mới cập nhật <span class="fa fa-flash"></span></a>
+							</div>
+						</div>
+						<div class="items col s16">
+							<div class="item">
+								<div class="box-item item-verti2">
+									{% for manga in manga_update %}
+									<div class="item ">	
+										<a href="/truyen/{{ manga.slug }}.html" title="{{ manga.title }}"  class="manga_title">
+											<span class="mini-title">{{ manga.title }}</span>
+										</a> 
+										<a href="/truyen/{{ manga.slug }}/chuong/{{ manga.chapterCurrent }}.html" class="chapter_title" title="{{ manga.lastChapter.title }}">
+											<span class="mini-title"><span class="fa fa-angle-right"></span> {{ manga.lastChapter.title }}</span>
+										</a>
+									</div>
+									{% endfor %}
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			<div class="box2">
+				<div class="row box">
+					<div class="col s16">
+						<div class="title-bar">
+							<a href="" class="title-bar-text text-green">Truyện FULL <span class="fa fa-check"></span></a>
+						</div>
+					</div>
+					{% for manga in manga_full %}
+					<div class="col x16 s16 m8 l8 item-verti">
+						<div class="row">
+							<div class="col m4 s4 x6">
+								<div class="img"><a href="/truyen/{{ manga.slug }}.html" title="{{ manga.title }}"><img src="{{ manga.image.2x }}" alt="{{ manga.title }}"></a></div>
+							</div>
+							<div class="col m12 s12 x10">
+								<div class="info">
+									<div><a class="title" href="/truyen/{{ manga.slug }}.html" title="Truyện {{ manga.title }}">{{ manga.title }}</a> </div>
+									<div>Tác giả: <a href="/tac-gia/{{ manga.author.slug }}.html" class="attr" title="Đọc truyện của {{ manga.author.title }}">{{ manga.author.title }}</a></div>
+									<div>Thể loại: 
+										{% for cat in manga.cat %}
+											<a href="/the-loai/{{ cat.catSlug }}.html" class="attr" title="Đọc thể loại {{ cat.catTitle }}">{{ cat.catTitle }}</a>,
+										{% endfor %}
+									</div>
+									<div>Chương mới nhất: <a href="/truyen/{{ manga.slug }}/chuong/{{ manga.chapterCurrent }}.html" class="attr" title="Đọc chương {{ manga.chapterCurrent }}" >{{ manga.chapterCurrent }}</a></div>
+									<div>Lượt xem: <b class="view-count" class="attr">{{ manga.view }}</b></div>
+								</div>
+							</div>
+						</div>
+					</div>
+					{% endfor %}
+				</div>
+			</div>
+
+		</div>
+		<div class="col s16 m16 l4">
+			<div class="box2">
+				<div class="row box">
+					<div class="col s16">
+						<div class="title-bar">
+							<a href="" class="title-bar-text text-sky">Thể loại<span class="fa fa-list"></span></a>
+						</div>
+
+						<div class="categorys">
+							{% for cat in categories %}
+								<a class="item col l8 m4 s8 " href="/the-loai/{{ cat.slug }}.html" title="Truyện {{ cat.title }}" ><span class="fa fa-angle-right"></span> {{ cat.title }}</a>
+							{% endfor %}
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- <div class="bòx">
+				<div class="row box">
+					<div class="col s16">
+						<div class="title-bar">
+							<a href="" class="title-bar-text text-orange">Từ khóa hot<span class="fa fa-tag"></span></a>
+						</div>
+
+						<div class="tags">
+							<a href="">Kiem hiep <span></span></a>
+							<a href="">Kinh dị <span></span></a>
+							<a href="">Tinh cam <span></span></a>
+							<a href="">Ngôn tình<span></span></a>
+							<a href="">Trinh tham <span></span></a>
+						</div>
+					</div>
+				</div>
+			</div> -->
+		</div>
+	</div>
+</div>
+
+<div class="col m16 s16">
+	<div class="box2">
+		<div class="row box">
+			<div class="col s16">
+				<div class="title-bar">
+					<a href="" class="title-bar-text text-sky">Truyện mới <span class="fa fa-file-o"></span></a>
+				</div>
+			</div>
+			<div class="items col s16">
+
+				{% for manga in manga_new %}
+					<div class="col x8 s8 m4 l2 box-item">
+						<div class="item item-small">
+							<a href="/truyen/{{ manga.slug }}.html" title="{{ manga.title }}">
+								<div class="image"><img src="{{ manga.image.1x }}" alt="{{ manga.title }}"><span class="title">{{ manga.title }}</span></div>
+								<span class="icon">HOT</span>
+							</a>
+						</div>
+					</div>
+				{% endfor %}
+			</div>
+		</div>
+	</div>
+</div>
+{% load static %}
+<script src="{% static "js/owl.carousel.js" %}"></script>
+
+<style>
+#owl-demo .item{
+    color: #FFF;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+    text-align: center;
+}
+</style>
+<script>
+	$(document).ready(function() {
+	  var owl = $("#owl-demo");
+	  owl.owlCarousel({
+	    itemsCustom : [
+	      [0, 2],
+	      [301, 2],
+	      [601, 4],
+	      [993, 5]
+	    ],
+	    navigation : true
+	  });
+	});
+</script>
+{% endblock %}

@@ -1,0 +1,42 @@
+FROM base
+MAINTAINER Quyen Dev version: 1.0
+
+EXPOSE 80
+EXPOSE 8080
+EXPOSE 8081
+
+# Apt install
+RUN apt-get update
+RUN apt-get install -y python-pip supervisor 
+
+# Pip install
+RUN pip install Django==1.9.7
+RUN pip install django-redis==4.4.3
+RUN pip install django-rest-swagger==0.3.8
+RUN pip install djangorestframework==3.3.3
+RUN pip install forked-path==0.2.3
+RUN pip install gunicorn==19.6.0
+RUN pip install meld3==1.0.2
+RUN pip install MySQL-python==1.2.5
+RUN pip install PyYAML==3.11
+RUN pip install redis==2.10.5
+RUN pip install requests==2.12.1
+RUN pip install simplejson==3.10.0
+RUN pip install static3==0.7.0
+RUN pip install supervisor==3.2.0
+
+# ------------------------------------------------------------------------------
+# Add volumes
+RUN mkdir /src
+RUN mkdir /content
+
+VOLUME /src
+VOLUME /content
+
+WORKDIR /src
+
+
+# ------------------------------------------------------------------------------
+# Clean up APT when done.
+RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+

@@ -1,0 +1,14 @@
+Django==1.9.7
+django-redis==4.4.3
+django-rest-swagger==0.3.8
+djangorestframework==3.3.3
+forked-path==0.2.3
+gunicorn==19.6.0
+meld3==1.0.2
+MySQL-python==1.2.5
+PyYAML==3.11
+redis==2.10.5
+requests==2.12.1
+simplejson==3.10.0
+static3==0.7.0
+supervisor==3.2.0

@@ -1,0 +1,48 @@
+
+# Create network mark
+docker network create --subnet=172.18.0.0/16 truyen_net
+
+# Create container
+docker run -it --name=truyen_redis --hostname=Redis --net=truyen_net --ip 172.18.0.22 -p 6379:6379 truyen_redis
+	--name -> Name container
+	--hostname -> Host name
+	--net -> Netmark
+	--ip -> Static IP
+
+#
+docker run -it --name=truyen_app  --hostname=AppWeb --net=truyen_net --ip 172.18.0.21 -v /data/leech/sstruyen/:/content/ -v /projects/truyen_v2/:/src/ -p 8080:8080  truyen_app
+docker run -it --name=truyen_app  --hostname=AppWeb --net=truyen_net --ip 172.18.0.211 -v /data/leech/sstruyen/:/content/ -v /projects/truyen_v2/:/src/ -p 8081:8081  truyen_app
+
+docker run -it --name=truyen_proxy -v /data/leech/sstruyen/backdrop/:/static  --hostname=Proxy --net=truyen_net --ip 172.18.0.20  -p 80:80  truyen_proxy
+
+
+
+# Nginx 
+server {
+    listen 80;
+
+    server_name truyenv1.dev; # Wildcard server
+
+    location / {
+        proxy_bind $host:80; # Bind to port 80 << THIS IS THE MAGIC
+        proxy_pass http://172.18.0.21:8080;
+        proxy_set_header Host            $host; # Pass host header
+        proxy_set_header X-Real-IP       $remote_addr; # Preserve client IP
+        proxy_set_header X-Forwarded-For $remote_addr;
+    }
+}
+
+
+server {
+    listen 80;
+
+    server_name v2.truyenv1.dev; # Wildcard server
+
+    location / {
+        proxy_bind $host:80; # Bind to port 80 << THIS IS THE MAGIC
+        proxy_pass http://172.18.0.211:8081;
+        proxy_set_header Host            $host; # Pass host header
+        proxy_set_header X-Real-IP       $remote_addr; # Preserve client IP
+        proxy_set_header X-Forwarded-For $remote_addr;
+    }
+}

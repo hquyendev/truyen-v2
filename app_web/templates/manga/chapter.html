@@ -1,0 +1,86 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+<div class="">
+	<div class="chapter-info">
+		<a href="/truyen/{{ manga.slug }}.html" title="{{ manga.title }}" class="manga-title"><span class="fa fa-paw"></span> {{ manga.title }} <span class="fa fa-paw"></span> </a>
+		<div class="chapter-title text-sky">{{ chapter.title }}</div>
+	</div>
+	<div id="chapter-content" class="chapter-content" >
+		{% autoescape off %}{{ chapter.content }}{% endautoescape %}		
+		<a href="{% if chapter.attr.next_series != None %}/truyen/{{ manga.slug }}/chuong/{{ chapter.attr.next_series }}.html {% else %}javascript:void(-1); {% endif %}" id="chapter-next" class="chapter-next {% if chapter.attr.next_series == None %}deactive {% endif %} ">{% if chapter.attr.next_series == None %}HẾT{% else %}Chương kế tiếp{% endif %}</a>
+
+	</div>
+</div>
+<div class="control-panel">
+	<a href="{% if chapter.attr.prev_series != None %}/truyen/{{ manga.slug }}/chuong/{{ chapter.attr.prev_series }}.html {% else %}javascript:void(-1); {% endif %}" id="chapter-prev" class="nav-control {% if chapter.attr.prev_series == None %}deactive {% endif %}"><span class="fa fa-chevron-left"></span></a>
+		<section id="chapter-go">
+			<input type="text" class="choose-page" value="{% if chapter.attr.next_series == None %}{{ chapter.attr.prev_series }}{% else %}{{ chapter.attr.next_series }}{% endif %}"><span class="max-numer">/{{ chapter.attr.max_series }}</span>
+			<button class="submit-page"><span class="fa fa-arrow-right"></span></button>
+		</section>
+	<a href="{% if chapter.attr.next_series != None %}/truyen/{{ manga.slug }}/chuong/{{ chapter.attr.next_series }}.html {% else %}javascript:void(-1); {% endif %}" id="chapter-next" class="nav-control {% if chapter.attr.next_series == None %}deactive {% endif %} "><span class="fa fa-chevron-right"></span></a>
+</div>
+
+<div class="bottom">
+	<a class="setting" act-func="showSetting"><span class="fa fa-gear"></span></a>
+	<div id="setting" class="showIn">
+		<div class="setting-overload"></div>
+		<div class="pannel">
+			<div class="pannel-header">
+				<span class="pannel-title">Thiết lập</span>
+				<span class="pannel-close" id="setting-close">×</span>
+			</div>
+			<div class="pannel-body">
+			<ul class="list-setting">
+				<li>
+					<div class="key">Chế độ xem Đêm</div>
+					<div class="value">
+						<div class="switch">
+							<label>
+								<input type="checkbox" id="sleepmode_btn">
+								<span class="lever" id="default_sleep_mode" current=""></span>
+							</label>
+						</div>
+					</div>
+				</li>
+				<li>
+					<div class="key">Cở chữ</div>
+					<div class="value">
+						<div class="current font-size">Vừa</div>
+						<div class="font-select">
+							<ul>
+								<li class="font-val size-18" val="18">Nhỏ</li>
+								<li val="22" class="active font-val size-22">Vừa</li>
+								<li class="font-val size-30" val="30">Lớn</li>
+							</ul>
+						</div>
+					</div>
+				</li>
+			</ul>
+			</div>
+		</div>
+	</div>
+</div>
+<script>
+	var readPage = true;
+	$(document).ready(function(){
+		var current = parseInt('{% if chapter.attr.next_series == None %}{{ chapter.attr.prev_series }}{% else %}{{ chapter.attr.next_series }}{% endif %}');
+		var total = parseInt('{{ chapter.attr.curr_series }}');
+		var slug = '{{ manga.slug }}';
+		var url = '{{root}}truyen/'+slug+'/chuong/';
+		$('.choose-page').val(current);
+		$('.submit-page').on('click', function(){
+			var val = $('.choose-page').val();
+			if((val >0) ){
+				url = url + val + '.html';
+				window.location.href=url;
+			}
+		});
+	});
+</script>
+<style>
+	.content{
+		    background: rgb(253, 253, 253) !important;
+	}
+</style>
+{% endblock %}

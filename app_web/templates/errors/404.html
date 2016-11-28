@@ -1,0 +1,30 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+<div class="content-404">
+	<div class="error-code">
+		404<i>!</i>
+	</div>
+	<div class="error-title">
+		Hừm..., Trang này méo có!!!
+	</div>
+	<div class="error-option">
+		<a href="javascript: window.history.go(-2)" class="error-back" title="Quay về trang trước đó"><span class="fa fa-arrow-left"></span> Quay về trang trước đó</a>
+		<a href="<?=ROOT?>" class="error-home" title="Đến trang chủ"><span class="fa fa-home"></span> Trang chủ</a>
+	</div>
+</div>
+
+<style>
+div.content-404{background: #FFF; padding: 10px; border-radius: 5px; box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.08); }
+div.error-code{text-align: center; font-size: 10em; font-weight: bold; font-family: serif; }
+div.error-code i{color: #ff5050; }
+div.error-title{text-align: center; font-size: 3em; font-weight: bold; color: #ffae7b; }
+div.error-option{margin: 20px; text-align: center; }
+div.error-option a{padding: 10px 15px; background: #7d7d7d; color: #FFF !important; border-radius: 3px; }
+div.error-option a{padding: 10px 15px; color: #FFF !important; border-radius: 3px; margin: 20px 10px; }
+div.error-option a.error-back{background: #7d7d7d; }
+div.error-option a.error-back:hover{background: #525252; color: #FFF !important; }
+div.error-option a.error-home{background: #00bcd4; }
+div.error-option a.error-home:hover{color: #FFF !important; background: #018ea0; }
+</style>
+{% endblock %}

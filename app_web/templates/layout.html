@@ -1,0 +1,91 @@
+{% load static %}
+<html>
+<head prefix="og: http://123truyen.org# fb: http://123truyen.org# books: http://123truyen.org#">
+	<title>123 Truyện</title>
+	<link rel="stylesheet" href="{% static "css/materialize.css" %} ">
+	<link rel="stylesheet" href="{% static "css/style2.css" %} ">
+	<link rel="stylesheet" href="{% static "css/font-awesome.css" %} ">
+	<link rel="stylesheet" href="{% static "css/owl.carousel.css" %} ">
+	<script src="{% static "js/jquery.min.js" %}"></script>
+	<script src="{% static "js/jquery.cookie.js" %}"></script>
+	<link rel="shortcut icon" href="{% static "src/favicon.ico" %}" type="image/x-icon" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+	<meta property="fb:app_id" content="897560213704213" />
+	<meta property="og:url" content="<?=isset($metadata)?$metadata['url']:ROOT?>" />
+	<meta property="og:type" content="<?=isset($metadata)?$metadata['type']:'article'?>" />
+	<meta property="og:title" content="<?=isset($metadata)?$metadata['title']:'Đọc truyện Online | 123Truyen.org'?>" />
+	<meta property="og:description" content="<?=isset($metadata)?strip_tags($metadata['description']):'Đọc truyện Online, truyện full. Kho truyện khổng lồ, cập nhật liên tục... Hỗ trợ chế độ xem đêm, thay đổi kích thước chữ, chống đau mắt.'?>" />
+	<meta property="og:image" content="<?=isset($metadata1)?$metadata['image']:ROOT.'upload/cover123truyen.jpg'?>" />
+	<meta property="og:site_name" content="123Truyện.org" />
+</head>
+<body>
+<script>
+	var readPage = undefined;
+</script>
+<div class="overload"><div class="darkboard"></div></div>
+
+<script type="text/javascript">
+	$(document).ready(function(){
+		$('.img-item').on('click', function(){
+			$('.img-item').removeClass('active');
+			$(this).addClass('active');
+			$('#show-img').attr('src', $(this).attr('src'));
+		});
+	});
+</script>
+
+<!-- Navbar -->
+<div class="header fixed" id="header">
+	<div class="nav">
+		<div class="container" style="padding:0">
+			<div class="row nav-bar">
+				<div class="col s16 nav-bar-container">
+					<a href="/" class="brand" title="Web đọc truyện 123truyen.org"><img src="{% static "src/123truyen.png" %}" style="    margin: 4px;"alt="123Truyen"></a>
+					<a class="ctrl-sidebar" act-func="showSidebar"><span class="fa fa-bars"></span></a>
+					<div class="sidebar showIn">
+						<ul class="nav-top">
+							<li class="title"><a><i class="fa fa-list" aria-hidden="true"></i> Danh mục</a> <span class="fa fa-angle-left" id="close-nav-bar"></span></li>
+							<li class="sub-menu"><a>Thể loại &nbsp;  <span class="fa fa-list  mobile" id="icon-extend"></span></a>
+								<div class="panel">
+									<ul>
+										{% for cat in categories %}
+											<li><a href="/the-loai/{{ cat.slug }}.html" ><span class="fa fa-angle-right"></span> {{ cat.title }}</a></li>
+										{% endfor %}
+									</ul>
+								</div>
+							</li>
+						</ul>
+					</div>
+					<div class="nav-search">
+						<form action="/tim-kiem" method="GET" id="form-search" autocomplete="off">
+							<input type="text" id="key-search" class="key" placeholder="Tìm truyện..." name="q">
+							<button type="" id="submit-search" class="submit"><span class="fa fa-search"></span></button>
+
+							<div id="complete" class="complete">
+								<ul id="group-mangas" class="group-items">
+								</ul>
+								<ul id="group-authors" class="group-items">
+								</ul>
+								<ul id="not-found" class="group-items">
+								</ul>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="content">
+	<div class="container">
+		<div class="row">
+			{% block content %}
+			{% endblock %}
+		</div>
+	</div>
+</div>
+	<script src="{% static "js/script.js" %}"></script>
+
+</body>
+</html>

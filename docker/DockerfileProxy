@@ -1,0 +1,12 @@
+FROM base
+MAINTAINER Quyen Dev version: 1.0
+
+EXPOSE 80
+
+# Apt install
+RUN apt-get update
+RUN apt-get install -y nginx
+
+RUN mkdir /static
+VOLUME /static
+
